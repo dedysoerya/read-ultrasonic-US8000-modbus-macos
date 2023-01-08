@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <ESP8266Wifi.h>
+#include <ESP8266WiFi.h>
 #include <ModbusMaster.h>
 #include <SoftwareSerial.h>
 #include <ArduinoJson.h>
@@ -261,105 +261,12 @@ void AddressRegistry_0000()
   }
 }
 
-/*
-void AddressRegistry_3100()
-{
-  result = node.readInputRegisters(0x3100, 6);
-
-  if (result == node.ku8MBSuccess)
-  {
-
-    pvvoltage = node.getResponseBuffer(0x00) / 100.0f;
-    Serial.print("PV Voltage: ");
-    Serial.println(pvvoltage);
-
-    pvcurrent = node.getResponseBuffer(0x01) / 100.0f;
-    Serial.print("PV Current: ");
-    Serial.println(pvcurrent);
-
-    pvpower = (node.getResponseBuffer(0x02) | node.getResponseBuffer(0x03) << 16) / 100.0f;
-    Serial.print("PV Power: ");
-    Serial.println(pvpower);
-
-    bvoltage = node.getResponseBuffer(0x04) / 100.0f;
-    Serial.print("Battery Voltage: ");
-    Serial.println(bvoltage);
-
-    battChargeCurrent = node.getResponseBuffer(0x05) / 100.0f;
-    Serial.print("Battery Charge Current: ");
-    Serial.println(battChargeCurrent);
-  }
-}
-
-void AddressRegistry_3106()
-{
-  result = node.readInputRegisters(0x3106, 2);
-
-  if (result == node.ku8MBSuccess) {
-    battChargePower = (node.getResponseBuffer(0x00) | node.getResponseBuffer(0x01) << 16)  / 100.0f;
-    Serial.print("Battery Charge Power: ");
-    Serial.println(battChargePower);
-  }
-}
-
-void AddressRegistry_310D()
-{
-  result = node.readInputRegisters(0x310D, 3);
-
-  if (result == node.ku8MBSuccess) {
-    lcurrent = node.getResponseBuffer(0x00) / 100.0f;
-    Serial.print("Load Current: ");
-    Serial.println(lcurrent);
-
-    lpower = (node.getResponseBuffer(0x01) | node.getResponseBuffer(0x02) << 16) / 100.0f;
-    Serial.print("Load Power: ");
-    Serial.println(lpower);
-  } else {
-    rs485DataReceived = false;
-    Serial.println("Read register 0x310D failed!");
-  }
-}
-
-void AddressRegistry_311A() {
-  result = node.readInputRegisters(0x311A, 2);
-
-  if (result == node.ku8MBSuccess) {
-    bremaining = node.getResponseBuffer(0x00) / 1.0f;
-    Serial.print("Battery Remaining %: ");
-    Serial.println(bremaining);
-
-    btemp = node.getResponseBuffer(0x01) / 100.0f;
-    Serial.print("Battery Temperature: ");
-    Serial.println(btemp);
-  } else {
-    rs485DataReceived = false;
-    Serial.println("Read register 0x311A failed!");
-  }
-}
-
-void AddressRegistry_331B() {
-  result = node.readInputRegisters(0x331B, 2);
-
-  if (result == node.ku8MBSuccess) {
-    battOverallCurrent = (node.getResponseBuffer(0x00) | node.getResponseBuffer(0x01) << 16) / 100.0f;
-    Serial.print("Battery Discharge Current: ");
-    Serial.println(battOverallCurrent);
-  } else {
-    rs485DataReceived = false;
-    Serial.println("Read register 0x331B failed!");
-  }
-}*/
-
 // A list of the regisities to query in order
 typedef void (*RegistryList[])();
 
 RegistryList Registries = {
     AddressRegistry_0000,
-    // AddressRegistry_3100,
-    //  AddressRegistry_3106,
-    //  AddressRegistry_310D,
-    //  AddressRegistry_311A,
-    //  AddressRegistry_331B,
+
 };
 
 // keep log of where we are
@@ -433,19 +340,11 @@ void loop()
     previousMillis = currentTime;
   }
 
+  // Periode Kirim Data
   currentTime = millis();
   if (currentTime - startTime >= periodeKirimData)
   {
     Serial.println("Kirim Data ....");
-
-    /*
-    String data1 = "Aman";
-    int data2 = 1000;
-    int data3 = 2000;
-    int data4 = 3000;
-    int data5 = 4000;
-
-    sendJsonData(data1, data2, data3, data4, data5);*/
 
     sendJsonData(data[0], data[1]);
     startTime = currentTime;
