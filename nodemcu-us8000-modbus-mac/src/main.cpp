@@ -21,9 +21,9 @@ const char *password = "zidanedane";
 // const char *ssid = "Mavens LT 2 2G";
 // const char *password = "adminmavens";
 
-const char *mqtt_server = "118.98.64.212";
+const char *mqtt_server = "192.168.1.100";
 const char *userBroker = "admin";
-const char *passBroker = "adminmavens";
+const char *passBroker = "admin";
 
 const int defaultBaudRate = 9600;
 int timerTask1, timerTask2, timerTask3;
